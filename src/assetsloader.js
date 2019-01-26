@@ -49,6 +49,7 @@ export class PdfAssetsLoader {
         name: fileName,
         data: data
       })
+      this.vfs[fileName] =  window.btoa(data+'');
     } else {
       this.vfs[fileName] = data
     }
