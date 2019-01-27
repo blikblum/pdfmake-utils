@@ -16,14 +16,14 @@
     ]
   },
   "devDependencies": {
-    "babel-core": "^6.26.3",
-    "babel-jest": "^23.2.0",
-    "babel-plugin-syntax-dynamic-import": "^6.18.0",
-    "babel-preset-env": "^1.7.0",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "babel-jest": "^24.0.0",
     "del": "^3.0.0",
-    "jest": "^23.2.0",
-    "rollup": "^0.66.6",
-    "rollup-plugin-babel": "^3.0.5",
+    "jest": "^24.0.0",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
     "standard": "^12.0.1"
   },
   "scripts": {
@@ -35,6 +35,6 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "raw-element": "^0.1.0"
+    "raw-element": "^0.2.0"
   }
 }

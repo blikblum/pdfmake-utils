@@ -1,11 +1,11 @@
 {
   "presets": [
     [
-      "env",
+      "@babel/preset-env",
       {
         "targets": {
           "browsers": [
-            "edge 14"
+            "firefox 57"
           ]
         },
         "modules": false
@@ -13,13 +13,13 @@
     ]
   ],
   "plugins": [
-    "syntax-dynamic-import"
+    "@babel/plugin-syntax-dynamic-import"
   ],
   "env": {
     "test": {
       "presets": [
         [
-          "env",
+          "@babel/preset-env",
           {
             "targets": {
               "node": "current"

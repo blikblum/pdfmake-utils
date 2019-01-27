@@ -14,8 +14,6 @@ promise = promise.then(() => del(['dist/*']))
 
 const outputName = pkg.name
 
-const exportName = pkg.name
-
 const formats = ['es']
 
 // Compile source code into a distributable format with Babel
@@ -27,10 +25,9 @@ formats.forEach((format) => {
       exclude: 'node_modules/**'
     })]
   }).then(bundle => bundle.write({
-    file: `dist/${format === 'es' ? outputName : outputName + '.umd'}.js`,
+    file: `dist/${outputName}.js`,
     format,
-    sourcemap: true,
-    name: format === 'umd' ? exportName : undefined
+    sourcemap: true
   })))
 })
 
