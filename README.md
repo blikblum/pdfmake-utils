@@ -38,7 +38,8 @@ A class to load dynamically fonts and arbitrary files
    * `styles`: an array with the styles that this file will be associated with
 *  `configurePdfMake`
    Configure pdfMake `vfs` and `fonts` properties with the loaded data. Accepts the pdfMake instance as argument   
-*  `load`: loads the registered fonts / files and configure pdfMake if pdfMake property is assigned. Returns a promise
+*  `load`: loads the registered fonts / files and configure pdfMake if pdfMake property is assigned. Returns a promise that is
+   resolved if all files loaded correctly or is rejected if any file fails to load.
 
 
 
@@ -63,8 +64,9 @@ assetsLoader.registerFile({name: 'MyHeader.png', URL: 'images/sunshine.png'})
 
 assetsLoader.load().then(() => {
   console.log('assets loaded')
-}).catch(err => {
-  console.error('assets loading', err);
+}).catch(errors => {
+  // errors -> array with all file loading errors
+  console.error('assets loading', errors);
 })
 
 ```

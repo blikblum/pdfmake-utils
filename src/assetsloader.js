@@ -86,13 +86,31 @@ export class PdfAssetsLoader {
       fetches.push(fileFetch)
     })
 
-    this.fetchesPromise = Promise.all(fetches).then(() => {
-      if (this.pdfMake) this.configurePdfMake(this.pdfMake)
-      this.ready = true
-    }).catch(err => {
-      if (this.pdfMake) this.configurePdfMake(this.pdfMake)
-      this.ready = true
-      console.warn(`Error fetching pdf assets`, err)
+    this.fetchesPromise = new Promise((resolve, reject) => {
+      const errors = []
+      let fulfilledCount = 0
+      fetches.forEach(promise => {
+        promise.then(() => {
+          fulfilledCount++
+          if (fulfilledCount >= fetches.length) {
+            this.ready = true
+            if (this.pdfMake) this.configurePdfMake(this.pdfMake)
+            if (errors.length) {
+              reject(errors)
+            } else {
+              resolve()
+            }
+          }
+        }).catch(err => {
+          fulfilledCount++
+          errors.push(err)
+          if (fulfilledCount >= fetches.length) {
+            this.ready = true
+            if (this.pdfMake) this.configurePdfMake(this.pdfMake)
+            reject(errors)
+          }
+        })
+      })
     })
 
     return this.fetchesPromise
