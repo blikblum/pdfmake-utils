@@ -91,32 +91,32 @@ assetsLoader.registerFont({name: 'Times', fileName: 'Times-Roman', styles: ['nor
 assetsLoader.registerFont({name: 'Times', fileName: 'Times-Italic', URL: 'fonts/Times-Italic.afm', styles: ['italics']})
 
 // all possible standard fonts
-PdfViewer.registerFont({name: 'Times', fileName: 'Times-Roman', styles: ['normal']})
-PdfViewer.registerFont({name: 'Times', fileName: 'Times-Italic', styles: ['italics']})
-PdfViewer.registerFont({name: 'Times', fileName: 'Times-Bold', styles: ['bold']})
-PdfViewer.registerFont({name: 'Times', fileName: 'Times-BoldItalic', styles: ['bolditalics']})
+assetsLoader.registerFont({name: 'Times', fileName: 'Times-Roman', styles: ['normal']})
+assetsLoader.registerFont({name: 'Times', fileName: 'Times-Italic', styles: ['italics']})
+assetsLoader.registerFont({name: 'Times', fileName: 'Times-Bold', styles: ['bold']})
+assetsLoader.registerFont({name: 'Times', fileName: 'Times-BoldItalic', styles: ['bolditalics']})
 
-PdfViewer.registerFont({name: 'Courier', fileName: 'Courier', styles: ['normal']})
-PdfViewer.registerFont({name: 'Courier', fileName: 'Courier-Oblique', styles: ['italics']})
-PdfViewer.registerFont({name: 'Courier', fileName: 'Courier-Bold', styles: ['bold']})
-PdfViewer.registerFont({name: 'Courier', fileName: 'Courier-BoldOblique', styles: ['bolditalics']})
+assetsLoader.registerFont({name: 'Courier', fileName: 'Courier', styles: ['normal']})
+assetsLoader.registerFont({name: 'Courier', fileName: 'Courier-Oblique', styles: ['italics']})
+assetsLoader.registerFont({name: 'Courier', fileName: 'Courier-Bold', styles: ['bold']})
+assetsLoader.registerFont({name: 'Courier', fileName: 'Courier-BoldOblique', styles: ['bolditalics']})
 
-PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica', styles: ['normal']})
-PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica-Oblique', styles: ['italics']})
-PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica-Bold', styles: ['bold']})
-PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica-BoldOblique', styles: ['bolditalics']})
+assetsLoader.registerFont({name: 'Helvetica', fileName: 'Helvetica', styles: ['normal']})
+assetsLoader.registerFont({name: 'Helvetica', fileName: 'Helvetica-Oblique', styles: ['italics']})
+assetsLoader.registerFont({name: 'Helvetica', fileName: 'Helvetica-Bold', styles: ['bold']})
+assetsLoader.registerFont({name: 'Helvetica', fileName: 'Helvetica-BoldOblique', styles: ['bolditalics']})
 
-PdfViewer.registerFont({name: 'Symbol', fileName: 'Symbol'})
+assetsLoader.registerFont({name: 'Symbol', fileName: 'Symbol'})
 
-PdfViewer.registerFont({name: 'ZapfDingbats', fileName: 'ZapfDingbats'})
+assetsLoader.registerFont({name: 'ZapfDingbats', fileName: 'ZapfDingbats'})
 
 assetsLoader.load().then(() => {
   assetsLoader.configurePdfMake(pdfMake)
-}).catch(err => {
+}).catch(errors => {
   // will fail if one of the files fails to load 
   // configure pdfMake with the files that loaded correctly
   assetsLoader.configurePdfMake(pdfMake)
-  console.error('assets loading', err);
+  console.error('assets loading', errors);
 })
 
 ```
