@@ -42,7 +42,7 @@ A class to load dynamically fonts and arbitrary files
 
 
 
-#### Usage
+##### Usage
 ```javascript
 import pdfmake from 'pdfmake/build/pdfmake'
 import { PdfAssetsLoader } from 'pdfmake-utils'
@@ -51,19 +51,74 @@ const assetsLoader = new PdfAssetsLoader()
 pdfmake.fonts = assetsLoader.fonts
 pdfmake.vfs = assetsLoader.vfs
 
+// register Roboto font, normal variant. Roboto-Regular.woff must be in root path
 assetsLoader.registerFont({name: 'Roboto', fileName: 'Roboto-Regular.woff', styles: ['normal']})
-assetsLoader.registerFont({name: 'Roboto', fileName: 'Roboto-Italic.woff', styles: ['italics']})
-assetsLoader.registerFont({name: 'Roboto', fileName: 'Roboto-Medium.woff', styles: ['bold']})
+// register Roboto font, bolditalics variant using a custom file location
 assetsLoader.registerFont({name: 'Roboto', fileName: 'Roboto-MediumItalic.woff', URL: 'fonts/Roboto-MediumItalic.woff', styles: ['bolditalics']})
 
+// register a file to be loaded in the root path
 assetsLoader.registerFile({name: 'MyLogo.png'})
+// register a file with a custom location
 assetsLoader.registerFile({name: 'MyHeader.png', URL: 'images/sunshine.png'})
 
 assetsLoader.load().then(() => {
   console.log('assets loaded')
+}).catch(err => {
+  console.error('assets loading', err);
 })
 
 ```
+
+##### Standard fonts
+
+The [Pdf standard fonts](https://en.wikipedia.org/wiki/PDF#Standard_Type_1_Fonts_(Standard_14_Fonts)) can be loaded by setting `fileName` to
+the font name without extension, e.g., 'Courier' or 'Courier-Bold'. By default, it will load the respective [*.afm file](https://github.com/foliojs/pdfkit/tree/master/lib/font/data) in root path.
+
+> To use standard fonts is necessary to call `configurePdfMake`
+
+##### Usage
+```javascript
+import pdfmake from 'pdfmake/build/pdfmake'
+import { PdfAssetsLoader } from 'pdfmake-utils'
+
+const assetsLoader = new PdfAssetsLoader()
+
+// register a Times font that will use the standard Times-Roman font. Times-Roman.afm must be in root path
+assetsLoader.registerFont({name: 'Times', fileName: 'Times-Roman', styles: ['normal']})
+// registering standard Times-Italic with a custom afm file location
+assetsLoader.registerFont({name: 'Times', fileName: 'Times-Italic', URL: 'fonts/Times-Italic.afm', styles: ['italics']})
+
+// all possible standard fonts
+PdfViewer.registerFont({name: 'Times', fileName: 'Times-Roman', styles: ['normal']})
+PdfViewer.registerFont({name: 'Times', fileName: 'Times-Italic', styles: ['italics']})
+PdfViewer.registerFont({name: 'Times', fileName: 'Times-Bold', styles: ['bold']})
+PdfViewer.registerFont({name: 'Times', fileName: 'Times-BoldItalic', styles: ['bolditalics']})
+
+PdfViewer.registerFont({name: 'Courier', fileName: 'Courier', styles: ['normal']})
+PdfViewer.registerFont({name: 'Courier', fileName: 'Courier-Oblique', styles: ['italics']})
+PdfViewer.registerFont({name: 'Courier', fileName: 'Courier-Bold', styles: ['bold']})
+PdfViewer.registerFont({name: 'Courier', fileName: 'Courier-BoldOblique', styles: ['bolditalics']})
+
+PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica', styles: ['normal']})
+PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica-Oblique', styles: ['italics']})
+PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica-Bold', styles: ['bold']})
+PdfViewer.registerFont({name: 'Helvetica', fileName: 'Helvetica-BoldOblique', styles: ['bolditalics']})
+
+PdfViewer.registerFont({name: 'Symbol', fileName: 'Symbol'})
+
+PdfViewer.registerFont({name: 'ZapfDingbats', fileName: 'ZapfDingbats'})
+
+assetsLoader.load().then(() => {
+  assetsLoader.configurePdfMake(pdfMake)
+}).catch(err => {
+  // will fail if one of the files fails to load 
+  // configure pdfMake with the files that loaded correctly
+  assetsLoader.configurePdfMake(pdfMake)
+  console.error('assets loading', err);
+})
+
+```
+
 
 #### PdfViewer
 
@@ -85,7 +140,7 @@ A Custom Element class that creates and displays a pdf in an iframe
  * `registerFont`
    Register a font to be loaded
 
-#### Usage
+##### Usage
 ```javascript
 import pdfmake from 'pdfmake/build/pdfmake'
 import { PdfViewer } from 'pdfmake-utils'
@@ -103,7 +158,7 @@ customElements.define('pdf-viewer', PdfViewer)
 
 ### License
 
-Copyright © 2018 Luiz Américo. This source code is licensed under the MIT license found in
+Copyright © 2019 Luiz Américo. This source code is licensed under the MIT license found in
 the [LICENSE.txt](https://github.com/blikblum/pdfmake-utils/blob/master/LICENSE.txt) file.
 The documentation to the project is licensed under the [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 license.
