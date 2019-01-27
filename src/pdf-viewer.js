@@ -35,15 +35,9 @@ export class PdfViewer extends RawElement {
       pdfMakeImport.catch(err => {
         throw new Error(`Error loading pdfmake module: ${err}`)
       })
-      Promise.all([pdfMakeImport, assetsLoaderLoad]).then(([module]) => {
-        pdfMake = module.default
-        pdfMake.vfs = assetsLoader.vfs
-        pdfMake.fonts = assetsLoader.fonts
-        if (pdfMake.fs) {
-          assetsLoader.rawFiles.forEach(file => {
-            pdfMake.fs.writeFileSync(file.name, file.data)
-          })
-        }
+      Promise.all([pdfMakeImport, assetsLoaderLoad]).then(results => {
+        pdfMake = results[0].default
+        assetsLoader.configurePdfMake(pdfMake)
         this.requestUpdate()
       })
     }

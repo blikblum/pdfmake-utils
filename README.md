@@ -23,6 +23,7 @@ A class to load dynamically fonts and arbitrary files
  * `ready`: Becomes true when assets loading is done
  * `vfs`: a hash containing loaded files data
  * `fonts`: a hash containing loaded fonts data
+ * `pdfMake`: pdfMake instance (optional) 
 
 ##### Methods
 * `registerFile`
@@ -35,7 +36,9 @@ A class to load dynamically fonts and arbitrary files
    * `fileName`: the font file name
    * `URL`: URL where the file should be loaded from. If not set it will use `fileName`
    * `styles`: an array with the styles that this file will be associated with
-*  `load`: loads the registered fonts / files
+*  `configurePdfMake`
+   Configure pdfMake `vfs` and `fonts` properties with the loaded data. Accepts the pdfMake instance as argument   
+*  `load`: loads the registered fonts / files and configure pdfMake if pdfMake property is assigned. Returns a promise
 
 
 

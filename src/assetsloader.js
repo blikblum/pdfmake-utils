@@ -87,12 +87,24 @@ export class PdfAssetsLoader {
     })
 
     this.fetchesPromise = Promise.all(fetches).then(() => {
+      if (this.pdfMake) this.configurePdfMake(this.pdfMake)
       this.ready = true
     }).catch(err => {
+      if (this.pdfMake) this.configurePdfMake(this.pdfMake)
       this.ready = true
       console.warn(`Error fetching pdf assets`, err)
     })
 
     return this.fetchesPromise
+  }
+
+  configurePdfMake (pdfMake) {
+    pdfMake.vfs = Object.assign(pdfMake.vfs || {}, this.vfs)
+    pdfMake.fonts = Object.assign(pdfMake.fonts || {}, this.fonts)
+    if (pdfMake.fs) {
+      this.rawFiles.forEach(file => {
+        pdfMake.fs.writeFileSync(file.name, file.data)
+      })
+    }
   }
 }
