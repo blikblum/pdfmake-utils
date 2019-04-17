@@ -17,7 +17,7 @@
 
 #### PdfAssetsLoader
 
-A class to load dynamically fonts and arbitrary files
+A class to load dynamically fonts and arbitrary files.
 
 ##### Properties
  * `ready`: Becomes true when assets loading is done
@@ -26,7 +26,7 @@ A class to load dynamically fonts and arbitrary files
  * `pdfMake`: pdfMake instance (optional) 
 
 ##### Methods
-* `registerFile`
+ * `registerFile`
    Register a file to be loaded. Accepts a hash with following properties:
    * `name`: the file name
    * `URL`: URL where the file should be loaded from. If not set it will use `name`
@@ -36,9 +36,9 @@ A class to load dynamically fonts and arbitrary files
    * `fileName`: the font file name
    * `URL`: URL where the file should be loaded from. If not set it will use `fileName`
    * `styles`: an array with the styles that this file will be associated with
-*  `configurePdfMake`
+ * `configurePdfMake`
    Configure pdfMake `vfs` and `fonts` properties with the loaded data. Accepts the pdfMake instance as argument   
-*  `load`: loads the registered fonts / files and configure pdfMake if pdfMake property is assigned. Returns a promise that is
+ * `load`: loads the registered fonts / files and configure pdfMake if pdfMake property is assigned. Returns a promise that is
    resolved if all files loaded correctly or is rejected if any file fails to load.
 
 
@@ -124,9 +124,9 @@ assetsLoader.load().then(() => {
 
 #### PdfViewer
 
-A Custom Element class that creates and displays a pdf in an iframe
+A Custom Element class that creates and displays a pdf in an iframe.
 
- > The assets and the pdfmake packages are loaded dyanamically the first time an instance is created
+ > The assets and the pdfmake packages are loaded dynamically the first time an instance is created
 
  > By default, [pdfmake-lite](https://github.com/blikblum/pdfmake/tree/lite) package is used. Adjust your bundler (e.g. webpack) to use main pdfmake package instead
 
