@@ -1,8 +1,8 @@
 # PdfMake Utils
 
-[![NPM version](http://img.shields.io/npm/v/pdfmake-utils.svg?style=flat-square)](https://www.npmjs.com/package/pdfmake-utils)
-[![NPM downloads](http://img.shields.io/npm/dm/pdfmake-utils.svg?style=flat-square)](https://www.npmjs.com/package/pdfmake-utils)
-[![Dependency Status](http://img.shields.io/david/dev/blikblum/pdfmake-utils.svg?style=flat-square)](https://david-dm.org/blikblum/pdfmake-utils#info=devDependencies)
+[![NPM version](https://img.shields.io/npm/v/pdfmake-utils.svg?style=flat-square)](https://www.npmjs.com/package/pdfmake-utils)
+[![NPM downloads](https://img.shields.io/npm/dm/pdfmake-utils.svg?style=flat-square)](https://www.npmjs.com/package/pdfmake-utils)
+[![Dependency Status](https://img.shields.io/david/dev/blikblum/pdfmake-utils.svg?style=flat-square)](https://david-dm.org/blikblum/pdfmake-utils#info=devDependencies)
 
 > PdfMake Utils provides helper classes to use with PdfMake
 
@@ -162,7 +162,7 @@ customElements.define('pdf-viewer', PdfViewer)
 
 Copyright © 2019 Luiz Américo. This source code is licensed under the MIT license found in
 the [LICENSE.txt](https://github.com/blikblum/pdfmake-utils/blob/master/LICENSE.txt) file.
-The documentation to the project is licensed under the [CC BY-SA 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+The documentation to the project is licensed under the [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
 license.
 
 ---
