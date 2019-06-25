@@ -49,6 +49,7 @@ export class PdfAssetsLoader {
         name: fileName,
         data: data
       })
+      this.vfs[fileName] = data
     } else {
       this.vfs[fileName] = data
     }
@@ -62,7 +63,7 @@ export class PdfAssetsLoader {
     const fetches = []
     this.fontDefs.forEach(fontDef => {
       const isStandard = standardFonts.indexOf(fontDef.fileName) !== -1
-      const vfsPath = isStandard ? `../font/data/${fontDef.fileName}.afm` : fontDef.fileName
+      const vfsPath = isStandard ? `data/${fontDef.fileName}.afm` : fontDef.fileName
       let fontURL = fontDef.URL
       if (!fontURL) {
         fontURL = isStandard ? `${fontDef.fileName}.afm` : fontDef.fileName
