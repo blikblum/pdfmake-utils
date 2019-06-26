@@ -3191,17 +3191,17 @@ levn@^0.3.0, levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-lit-element@^2.0.0-rc.5:
-  version "2.0.0-rc.5"
-  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.0.0-rc.5.tgz#3e4323c9ace59d49c3a0950551a3f923e0ccf86b"
-  integrity sha512-cMmWNWSFyYfXAd09bnqFhqDr5kuR/5guImD5ZRTk223EiBJaoo7naZnQngSYAMjgDn1CSbTE1LRtzviMS+g0RA==
+lit-element@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/lit-element/-/lit-element-2.2.0.tgz#e853be38021f0c7743a10180affdf84b8a02400c"
+  integrity sha512-Mzs3H7IO4wAnpzqreHw6dQqp9IG+h/oN8X9pgNbMZbE7x6B0aNOwP5Nveox/5HE+65ZfW2PeULEjoHkrwpTnuQ==
   dependencies:
-    lit-html "^1.0.0-rc.2"
+    lit-html "^1.0.0"
 
-lit-html@^1.0.0-rc.2:
-  version "1.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.0.0-rc.2.tgz#b9c904520fe005d349aa737a86d83645d97d5a89"
-  integrity sha512-4bq34lhVmwWly1zBXicOBJLOwaWfjOVbchEEmFnZLuztxjh5wRd2WqV0URX8Q47MQ7PaIjn/eXyTRKsYhSAeRw==
+lit-html@^1.0.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/lit-html/-/lit-html-1.1.0.tgz#6951fb717fb48fe34d915ae163448a04da321562"
+  integrity sha512-ZDJHpJi09yknMpjwPI8fuSl5sUG7+pF+eE5WciFtgyX7zebvgMDBgSLq4knXa7grxM00RkQ7PBd7UZQiruA78Q==
 
 load-json-file@^2.0.0:
   version "2.0.0"
@@ -4047,12 +4047,12 @@ randomatic@^3.0.0:
     kind-of "^6.0.0"
     math-random "^1.0.1"
 
-raw-element@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/raw-element/-/raw-element-0.2.0.tgz#b70cf114d7832b8339b75c60a0817e41a3b54a31"
-  integrity sha512-uXo05piTiwed0N8Mkz4VNudt2sGi+J2BhGttZ/4oIwmr+xVBJar+8V9c/Xtxt73MYiVIBpUHSCqtiSR6eiaBBA==
+raw-element@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/raw-element/-/raw-element-0.3.0.tgz#e8673ceacd363ac1d716065b9ed68193a886f491"
+  integrity sha512-QGAC/OnmVYEK5fyyBate24ufWmAvkbpjfZ5PY0WlXOIpeu/4kcxJLNP4zAYJvxAyND+KKH0Hpb0vi4EFHrJg+A==
   dependencies:
-    lit-element "^2.0.0-rc.5"
+    lit-element "^2.2.0"
 
 rc@^1.2.7:
   version "1.2.8"
