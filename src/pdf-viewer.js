@@ -2,6 +2,7 @@ import { RawElement } from 'raw-element'
 import { PdfAssetsLoader } from './assetsloader'
 
 const assetsLoader = new PdfAssetsLoader()
+let loadedPdfMake
 let dependenciesLoaded = false
 
 export class PdfViewer extends RawElement {
@@ -39,9 +40,9 @@ export class PdfViewer extends RawElement {
       getPdfMake.catch(err => {
         throw new Error(`Error loading pdfmake module: ${err}`)
       })
-      Promise.all([getPdfMake, loadAssets]).then(([resolvedPdfMake]) => {
-        this.pdfMake = resolvedPdfMake.__esModule ?  resolvedPdfMake.default : resolvedPdfMake
-        assetsLoader.configurePdfMake(this.pdfMake)
+      Promise.all([getPdfMake, loadAssets]).then(([pdfMake]) => {
+        loadedPdfMake = pdfMake.__esModule ?  pdfMake.default : pdfMake
+        assetsLoader.configurePdfMake(loadedPdfMake)
         this.requestUpdate()
       })
     }
@@ -53,10 +54,10 @@ export class PdfViewer extends RawElement {
 
   updated(changedProperties) {
     this.pendingData = this.pendingData || changedProperties.has('data')
-    if (this.pendingData && this.pdfMake && assetsLoader.ready) {
+    if (this.pendingData && loadedPdfMake && assetsLoader.ready) {
       this.pendingData = false
       try {
-        const pdfDocGenerator = this.pdfMake.createPdf(this.data)
+        const pdfDocGenerator = loadedPdfMake.createPdf(this.data)
         pdfDocGenerator.getDataUrl(dataUrl => {
          this.iframeEl.src = dataUrl
         })
@@ -69,7 +70,7 @@ export class PdfViewer extends RawElement {
   render() {
     if (!this.data) {
       this.innerHTML = '<div>Waiting for data...</div>'
-    } else if (!this.pdfMake || !assetsLoader.ready) {
+    } else if (!loadedPdfMake || !assetsLoader.ready) {
       this.innerHTML = '<div>Loading component...</div>'
     } else {
       if (!this.iframeEl) {
