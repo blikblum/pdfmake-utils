@@ -2,7 +2,6 @@ import { RawElement } from 'raw-element'
 import { PdfAssetsLoader } from './assetsloader'
 
 const assetsLoader = new PdfAssetsLoader()
-let pdfMake
 let dependenciesLoaded = false
 
 export class PdfViewer extends RawElement {
@@ -22,22 +21,26 @@ export class PdfViewer extends RawElement {
     assetsLoader.registerFile(fileDef)
   }  
 
+  static getPdfMake () {
+    return window.pdfMake
+  }
+
   constructor () {
     super()
     this.iframeEl = null
     if (!dependenciesLoaded) {
       dependenciesLoaded = true
-      const assetsLoaderLoad = assetsLoader.load()
-      assetsLoaderLoad.catch(err => {
+      const loadAssets = assetsLoader.load()
+      loadAssets.catch(err => {
         throw new Error(`Error loading fonts: ${err}`)
       })
-      const pdfMakeImport = import('pdfmake-lite/build/pdfmake')
-      pdfMakeImport.catch(err => {
+      const getPdfMake = Promise.resolve(this.constructor.getPdfMake())
+      getPdfMake.catch(err => {
         throw new Error(`Error loading pdfmake module: ${err}`)
       })
-      Promise.all([pdfMakeImport, assetsLoaderLoad]).then(results => {
-        pdfMake = results[0].default
-        assetsLoader.configurePdfMake(pdfMake)
+      Promise.all([getPdfMake, loadAssets]).then(([resolvedPdfMake]) => {
+        this.pdfMake = resolvedPdfMake.__esModule ?  resolvedPdfMake.default : resolvedPdfMake
+        assetsLoader.configurePdfMake(this.pdfMake)
         this.requestUpdate()
       })
     }
@@ -49,29 +52,29 @@ export class PdfViewer extends RawElement {
 
   updated(changedProperties) {
     this.pendingData = this.pendingData || changedProperties.has('data')
-    if (this.pendingData && pdfMake && assetsLoader.ready) {
+    if (this.pendingData && this.pdfMake && assetsLoader.ready) {
       this.pendingData = false
       try {
-        const pdfDocGenerator = pdfMake.createPdf(this.data)
+        const pdfDocGenerator = this.pdfMake.createPdf(this.data)
         pdfDocGenerator.getDataUrl(dataUrl => {
          this.iframeEl.src = dataUrl
-        })        
+        })
       } catch (error) {
         console.warn('Error creating pdf:', error)
-      }      
+      }
     }
   }
 
-  render() {    
+  render() {
     if (!this.data) {
       this.innerHTML = '<div>Waiting for data...</div>'
-    } else if (!pdfMake || !assetsLoader.ready) {
+    } else if (!this.pdfMake || !assetsLoader.ready) {
       this.innerHTML = '<div>Loading component...</div>'
     } else {
       if (!this.iframeEl) {
         this.innerHTML = '<iframe></iframe>'
         this.iframeEl = this.querySelector('iframe')
       }
-    }    
-  }  
+    }
+  }
 }
