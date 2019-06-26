@@ -1,14 +1,24 @@
+function createFetchError(fileURL, error) {
+  const result = new Error(`Fetching "${fileURL}" failed: ${error}`)
+  result.name = 'FetchError'
+  return result
+}
 function fetchFile (fileURL, isRaw) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.open('GET', fileURL, true)
     request.responseType = isRaw ? 'text' : 'arraybuffer'
+    
 
     request.onload = function (e) {
-      resolve(request.response)
+      if (request.status === 200) {
+        resolve(request.response)
+      } else {
+        reject(createFetchError(fileURL, request.statusText))
+      }
     }
 
-    request.onerror = reject
+    request.onerror = (error) => createFetchError(fileURL, error)
 
     request.send()
   })
