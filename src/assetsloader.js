@@ -3,12 +3,12 @@ function createFetchError(fileURL, error) {
   result.name = 'FetchError'
   return result
 }
+
 function fetchFile (fileURL, isRaw) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.open('GET', fileURL, true)
     request.responseType = isRaw ? 'text' : 'arraybuffer'
-    
 
     request.onload = function (e) {
       if (request.status === 200) {
@@ -39,8 +39,7 @@ export class PdfAssetsLoader {
     this.fileDefs = []
     this.fontDefs = []
     this.vfs = {}
-    this.fonts = {}
-    this.rawFiles = []
+    this.fonts = {}    
     this.ready = false
     this.fetchesPromise = undefined
   }
@@ -53,16 +52,8 @@ export class PdfAssetsLoader {
     this.fileDefs.push(fileDef)
   }
 
-  storeFileData (fileName, data, raw) {
-    if (raw) {
-      this.rawFiles.push({
-        name: fileName,
-        data: data
-      })
-      this.vfs[fileName] = data
-    } else {
-      this.vfs[fileName] = data
-    }
+  storeFileData (fileName, data) {
+    this.vfs[fileName] = data    
   }
 
   load () {
@@ -84,7 +75,7 @@ export class PdfAssetsLoader {
         styles.forEach(style => {
           fontInfo[style] = fontDef.fileName
         })
-        this.storeFileData(vfsPath, data, isStandard)
+        this.storeFileData(vfsPath, data)
       })
       fetches.push(fontFetch)
     })
@@ -92,7 +83,7 @@ export class PdfAssetsLoader {
     this.fileDefs.forEach(fileDef => {
       const fileURL = fileDef.URL || fileDef.name
       const fileFetch = fetchFile(fileURL, fileDef.raw).then(data => {
-        this.storeFileData(fileDef.name, data, fileDef.raw)
+        this.storeFileData(fileDef.name, data)
       })
       fetches.push(fileFetch)
     })
@@ -130,10 +121,5 @@ export class PdfAssetsLoader {
   configurePdfMake (pdfMake) {
     pdfMake.vfs = Object.assign(pdfMake.vfs || {}, this.vfs)
     pdfMake.fonts = Object.assign(pdfMake.fonts || {}, this.fonts)
-    if (pdfMake.fs) {
-      this.rawFiles.forEach(file => {
-        pdfMake.fs.writeFileSync(file.name, file.data)
-      })
-    }
   }
 }
