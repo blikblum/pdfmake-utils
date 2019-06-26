@@ -27,6 +27,7 @@ export class PdfViewer extends RawElement {
 
   constructor () {
     super()
+    this.style.display = 'block'
     this.iframeEl = null
     if (!dependenciesLoaded) {
       dependenciesLoaded = true
@@ -72,7 +73,7 @@ export class PdfViewer extends RawElement {
       this.innerHTML = '<div>Loading component...</div>'
     } else {
       if (!this.iframeEl) {
-        this.innerHTML = '<iframe></iframe>'
+        this.innerHTML = '<iframe style="width: 100%; height: 100%;"></iframe>'
         this.iframeEl = this.querySelector('iframe')
       }
     }
