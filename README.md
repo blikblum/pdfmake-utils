@@ -128,24 +128,30 @@ A Custom Element class that creates and displays a pdf in an iframe.
 
  > The assets and the pdfmake packages are loaded dynamically the first time an instance is created
 
- > By default, [pdfmake-lite](https://github.com/blikblum/pdfmake/tree/lite) package is used. Adjust your bundler (e.g. webpack) to use main pdfmake package instead
+ > By default, it uses `window.pdfMake`. Configure the pdfMake instance using `getPdfMake` callback
 
- > To style the element use CSS with the `pdf-viewer iframe` selector
 
 ##### Properties
  * `data`
-   The PdfMake document definition from the pdf which is generated 
+   The pdf document definition to be generated 
+
+##### Static Properties
+ * `getPdfMake`
+   Accepts a function that returns a pdfMake instance or a promise that resolves to a pdfMake instance
 
 ##### Static Methods
  * `registerFile`
-   Register a file to be loaded  
+   Register a file to be loaded. Same signature as PdfAssetsLoader registerFile method
  * `registerFont`
-   Register a font to be loaded
+   Register a font to be loaded. Same signature as PdfAssetsLoader registerFont method
+
 
 ##### Usage
 ```javascript
-import pdfmake from 'pdfmake/build/pdfmake'
 import { PdfViewer } from 'pdfmake-utils'
+
+// lazy load pdfmake (webpack will do code split automatically)
+PdfViewer.getPdfMake = () => import('pdfmake/build/pdfmake')
 
 PdfViewer.registerFont({name: 'Roboto', fileName: 'Roboto-Regular.woff', styles: ['normal']})
 PdfViewer.registerFont({name: 'Roboto', fileName: 'Roboto-Italic.woff', styles: ['italics']})
