@@ -18,7 +18,7 @@ function fetchFile (fileURL, isRaw) {
       }
     }
 
-    request.onerror = (error) => createFetchError(fileURL, error)
+    request.onerror = (error) => reject(createFetchError(fileURL, error))
 
     request.send()
   })
