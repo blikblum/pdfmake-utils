@@ -16,15 +16,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-syntax-dynamic-import": "^7.0.0",
-    "@babel/preset-env": "^7.6.3",
-    "babel-jest": "^24.9.0",
-    "del": "^5.1.0",
-    "jest": "^24.9.0",
-    "rollup": "^1.26.3",
-    "rollup-plugin-babel": "^4.3.3",
-    "standard": "^14.3.1"
+    "@babel/core": "^7.15.5",
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
+    "@babel/preset-env": "^7.15.6",
+    "babel-jest": "^27.2.0",
+    "del": "^6.0.0",
+    "jest": "^27.2.0",
+    "rollup": "^2.56.3",
+    "rollup-plugin-babel": "^4.4.0",
+    "standard": "^16.0.3"
   },
   "scripts": {
     "lint": "standard src test tools",
