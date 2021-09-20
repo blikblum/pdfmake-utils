@@ -7,7 +7,7 @@ const pkg = require('../package.json')
 
 let promise = Promise.resolve()
 
-let dependencies = Object.assign({}, pkg.dependencies || {}, pkg.peerDependencies || {})
+const dependencies = Object.assign({}, pkg.dependencies || {}, pkg.peerDependencies || {})
 
 // Clean up the output directory
 promise = promise.then(() => del(['dist/*']))

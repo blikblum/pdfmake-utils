@@ -1,4 +1,4 @@
-function createFetchError(fileURL, error) {
+function createFetchError (fileURL, error) {
   const result = new Error(`Fetching "${fileURL}" failed: ${error}`)
   result.name = 'FetchError'
   return result
@@ -39,7 +39,7 @@ export class PdfAssetsLoader {
     this.fileDefs = []
     this.fontDefs = []
     this.vfs = {}
-    this.fonts = {}    
+    this.fonts = {}
     this.ready = false
     this.fetchesPromise = undefined
   }
@@ -53,7 +53,7 @@ export class PdfAssetsLoader {
   }
 
   storeFileData (fileName, data) {
-    this.vfs[fileName] = data    
+    this.vfs[fileName] = data
   }
 
   load () {
