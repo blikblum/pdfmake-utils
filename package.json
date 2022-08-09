@@ -1,6 +1,6 @@
 {
   "name": "pdfmake-utils",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "description": "A project template for authoring and publishing JavaScript libraries",
   "repository": "blikblum/pdfmake-utils",
   "author": "Luiz Américo Pereira Câmara",
@@ -35,7 +35,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "raw-element": "^0.3.0"
+    "raw-element": "^0.4.0"
   },
   "files": [
     "dist"
