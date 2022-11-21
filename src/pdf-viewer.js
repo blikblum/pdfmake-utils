@@ -6,22 +6,22 @@ let loadedPdfMake
 let dependenciesLoaded = false
 
 export class PdfViewer extends RawElement {
-  static get properties () {
+  static get properties() {
     return {
       data: { type: Object },
       mode: { type: String },
-      delay: { type: Number }
+      delay: { type: Number },
     }
   }
 
-  static get assetsLoader () {
+  static get assetsLoader() {
     if (!pdfViewerAssetsLoader) {
       pdfViewerAssetsLoader = new PdfAssetsLoader()
     }
     return pdfViewerAssetsLoader
   }
 
-  static set assetsLoader (value) {
+  static set assetsLoader(value) {
     if (!value) {
       console.warning(`PdfViewer.assetsLoader: trying to set instance to an invalid value ${value}`)
       return
@@ -32,53 +32,62 @@ export class PdfViewer extends RawElement {
     pdfViewerAssetsLoader = value
   }
 
-  static registerFont (fontDef) {
+  static registerFont(fontDef) {
     this.assetsLoader.registerFont(fontDef)
   }
 
-  static registerFile (fileDef) {
+  static registerFile(fileDef) {
     this.assetsLoader.registerFile(fileDef)
   }
 
-  static getPdfMake () {
+  static getPdfMake() {
     return window.pdfMake
   }
 
-  constructor () {
+  constructor() {
     super()
     this.style.display = 'block'
     this.iframeEl = null
+  }
+
+  connectedCallback() {
+    super.connectedCallback()
+    this.ensureDependencies()
+  }
+
+  async ensureDependencies() {
     const { assetsLoader } = this.constructor
     if (!dependenciesLoaded) {
       dependenciesLoaded = true
-      const loadAssets = assetsLoader.load()
-      loadAssets.catch(err => {
-        throw new Error(`Error loading fonts: ${err}`)
-      })
-      const getPdfMake = Promise.resolve(this.constructor.getPdfMake())
-      getPdfMake.catch(err => {
-        throw new Error(`Error loading pdfmake module: ${err}`)
-      })
-      Promise.all([getPdfMake, loadAssets]).then(([pdfMake]) => {
+      try {
+        const getPdfMake = Promise.resolve(this.constructor.getPdfMake())
+        const [pdfMake] = await Promise.all([getPdfMake, assetsLoader.load()])
         loadedPdfMake = pdfMake.__esModule ? pdfMake.default : pdfMake
         assetsLoader.configurePdfMake(loadedPdfMake)
         this.requestUpdate()
-      })
+      } catch (error) {
+        console.error(`PdfViewer: Error loading dependencies: ${error}`)
+        throw new Error(`PdfViewer: Error loading dependencies: ${error}`)
+      }
     }
   }
 
-  createRenderRoot () {
+  createRenderRoot() {
     return this
   }
 
-  updated (changedProperties) {
+  updated(changedProperties) {
     const { assetsLoader } = this.constructor
     this.pendingData = this.pendingData || changedProperties.has('data')
+    this.loadPdfData(assetsLoader)
+  }
+
+  loadPdfData(assetsLoader) {
     if (this.pendingData && loadedPdfMake && assetsLoader.ready) {
       this.pendingData = false
       try {
         const pdfDocGenerator = loadedPdfMake.createPdf(this.data)
-        pdfDocGenerator.getDataUrl(dataUrl => {
+        pdfDocGenerator.getDataUrl((dataUrl) => {
           this.iframeEl.src = dataUrl
         })
       } catch (error) {
@@ -87,7 +96,7 @@ export class PdfViewer extends RawElement {
     }
   }
 
-  render () {
+  render() {
     const { assetsLoader } = this.constructor
     if (!this.data) {
       this.innerHTML = '<div>Waiting for data...</div>'

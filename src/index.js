@@ -10,7 +10,4 @@
 import { PdfViewer } from './pdf-viewer'
 import { PdfAssetsLoader } from './assetsloader'
 
-export {
-  PdfViewer,
-  PdfAssetsLoader
-}
+export { PdfViewer, PdfAssetsLoader }

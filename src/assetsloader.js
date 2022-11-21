@@ -1,10 +1,10 @@
-function createFetchError (fileURL, error) {
+function createFetchError(fileURL, error) {
   const result = new Error(`Fetching "${fileURL}" failed: ${error}`)
   result.name = 'FetchError'
   return result
 }
 
-function fetchFile (fileURL, isRaw) {
+function fetchFile(fileURL, isRaw) {
   return new Promise((resolve, reject) => {
     const request = new XMLHttpRequest()
     request.open('GET', fileURL, true)
@@ -27,15 +27,24 @@ function fetchFile (fileURL, isRaw) {
 const allStyles = ['normal', 'bold', 'italics', 'bolditalics']
 
 const standardFonts = [
-  'Times-Roman', 'Times-Bold', 'Times-Italic', 'Times-BoldItalic',
-  'Courier', 'Courier-Bold', 'Courier-Oblique', 'Courier-BoldOblique',
-  'Helvetica', 'Helvetica-Bold', 'Helvetica-Oblique', 'Helvetica-BoldOblique',
+  'Times-Roman',
+  'Times-Bold',
+  'Times-Italic',
+  'Times-BoldItalic',
+  'Courier',
+  'Courier-Bold',
+  'Courier-Oblique',
+  'Courier-BoldOblique',
+  'Helvetica',
+  'Helvetica-Bold',
+  'Helvetica-Oblique',
+  'Helvetica-BoldOblique',
   'Symbol',
-  'ZapfDingbats'
+  'ZapfDingbats',
 ]
 
 export class PdfAssetsLoader {
-  constructor () {
+  constructor() {
     this.fileDefs = []
     this.fontDefs = []
     this.vfs = {}
@@ -44,35 +53,35 @@ export class PdfAssetsLoader {
     this.fetchesPromise = undefined
   }
 
-  registerFont (fontDef) {
+  registerFont(fontDef) {
     this.fontDefs.push(fontDef)
   }
 
-  registerFile (fileDef) {
+  registerFile(fileDef) {
     this.fileDefs.push(fileDef)
   }
 
-  storeFileData (fileName, data) {
+  storeFileData(fileName, data) {
     this.vfs[fileName] = data
   }
 
-  load () {
+  load() {
     if (this.fetchesPromise) {
       return this.fetchesPromise
     }
 
     const fetches = []
-    this.fontDefs.forEach(fontDef => {
+    this.fontDefs.forEach((fontDef) => {
       const isStandard = standardFonts.indexOf(fontDef.fileName) !== -1
       const vfsPath = isStandard ? `data/${fontDef.fileName}.afm` : fontDef.fileName
       let fontURL = fontDef.URL
       if (!fontURL) {
         fontURL = isStandard ? `${fontDef.fileName}.afm` : fontDef.fileName
       }
-      const fontFetch = fetchFile(fontURL, isStandard).then(data => {
+      const fontFetch = fetchFile(fontURL, isStandard).then((data) => {
         const fontInfo = this.fonts[fontDef.name] || (this.fonts[fontDef.name] = {})
         const styles = fontDef.styles || allStyles
-        styles.forEach(style => {
+        styles.forEach((style) => {
           fontInfo[style] = fontDef.fileName
         })
         this.storeFileData(vfsPath, data)
@@ -80,9 +89,9 @@ export class PdfAssetsLoader {
       fetches.push(fontFetch)
     })
 
-    this.fileDefs.forEach(fileDef => {
+    this.fileDefs.forEach((fileDef) => {
       const fileURL = fileDef.URL || fileDef.name
-      const fileFetch = fetchFile(fileURL, fileDef.raw).then(data => {
+      const fileFetch = fetchFile(fileURL, fileDef.raw).then((data) => {
         this.storeFileData(fileDef.name, data)
       })
       fetches.push(fileFetch)
@@ -91,34 +100,41 @@ export class PdfAssetsLoader {
     this.fetchesPromise = new Promise((resolve, reject) => {
       const errors = []
       let fulfilledCount = 0
-      fetches.forEach(promise => {
-        promise.then(() => {
-          fulfilledCount++
-          if (fulfilledCount >= fetches.length) {
-            this.ready = true
-            if (this.pdfMake) this.configurePdfMake(this.pdfMake)
-            if (errors.length) {
-              reject(errors)
-            } else {
-              resolve()
+      if (fetches.length === 0) {
+        this.ready = true
+        resolve()
+        return
+      }
+      fetches.forEach((promise) => {
+        promise
+          .then(() => {
+            fulfilledCount++
+            if (fulfilledCount >= fetches.length) {
+              this.ready = true
+              if (this.pdfMake) this.configurePdfMake(this.pdfMake)
+              if (errors.length) {
+                reject(errors)
+              } else {
+                resolve()
+              }
             }
-          }
-        }).catch(err => {
-          fulfilledCount++
-          errors.push(err)
-          if (fulfilledCount >= fetches.length) {
-            this.ready = true
-            if (this.pdfMake) this.configurePdfMake(this.pdfMake)
-            reject(errors)
-          }
-        })
+          })
+          .catch((err) => {
+            fulfilledCount++
+            errors.push(err)
+            if (fulfilledCount >= fetches.length) {
+              this.ready = true
+              if (this.pdfMake) this.configurePdfMake(this.pdfMake)
+              reject(errors)
+            }
+          })
       })
     })
 
     return this.fetchesPromise
   }
 
-  configurePdfMake (pdfMake) {
+  configurePdfMake(pdfMake) {
     pdfMake.vfs = Object.assign(pdfMake.vfs || {}, this.vfs)
     pdfMake.fonts = Object.assign(pdfMake.fonts || {}, this.fonts)
   }
