@@ -1,6 +1,6 @@
 {
   "name": "pdfmake-utils",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "A project template for authoring and publishing JavaScript libraries",
   "repository": "blikblum/pdfmake-utils",
   "author": "Luiz Américo Pereira Câmara",
@@ -19,12 +19,11 @@
     "@babel/core": "^7.15.5",
     "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@babel/preset-env": "^7.15.6",
-    "@storybook/addon-actions": "^6.5.13",
-    "@storybook/addon-essentials": "^6.5.13",
-    "@storybook/addon-links": "^6.5.13",
-    "@storybook/builder-webpack4": "^6.5.13",
-    "@storybook/manager-webpack4": "^6.5.13",
-    "@storybook/web-components": "^6.5.13",
+    "@storybook/addon-actions": "^7.0.0-alpha.52",
+    "@storybook/addon-essentials": "^7.0.0-alpha.52",
+    "@storybook/addon-links": "^7.0.0-alpha.52",
+    "@storybook/web-components": "^7.0.0-alpha.52",
+    "@storybook/web-components-webpack5": "7.0.0-alpha.52",
     "babel-jest": "^27.2.0",
     "babel-loader": "^8.3.0",
     "del": "^6.0.0",
@@ -33,7 +32,8 @@
     "pdfmake-lite": "^0.1.70",
     "rollup": "^2.56.3",
     "rollup-plugin-babel": "^4.4.0",
-    "standard": "^16.0.3"
+    "standard": "^16.0.3",
+    "storybook": "7.0.0-alpha.52"
   },
   "scripts": {
     "format": "prettier src/**/*.js --write",
@@ -43,8 +43,8 @@
     "test:cover": "jest --coverage",
     "build": "node tools/build",
     "prepublishOnly": "npm run build",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "raw-element": "^0.4.0"

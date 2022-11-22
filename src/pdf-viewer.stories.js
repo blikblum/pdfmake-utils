@@ -1,7 +1,8 @@
 import { html } from 'lit-html'
 import { PdfViewer } from './pdf-viewer.js'
-import helvetica from 'file-loader?pdfkit/js/data/Helvetica.afm'
-import helveticaItalics from 'file-loader?pdfkit/js/data/Helvetica-Oblique.afm'
+import helvetica from 'pdfkit/js/data/Helvetica.afm'
+import helveticaItalics from 'pdfkit/js/data/Helvetica-Oblique.afm'
+import helveticaBold from 'pdfkit/js/data/Helvetica-Bold.afm'
 
 PdfViewer.getPdfMake = () => import('pdfmake-lite')
 PdfViewer.registerFont({
@@ -15,6 +16,12 @@ PdfViewer.registerFont({
   fileName: 'Helvetica-Oblique',
   URL: helveticaItalics,
   styles: ['italics'],
+})
+PdfViewer.registerFont({
+  name: 'Helvetica',
+  fileName: 'Helvetica-Bold',
+  URL: helveticaBold,
+  styles: ['bold'],
 })
 
 customElements.define('pdf-viewer', PdfViewer)
@@ -63,6 +70,9 @@ const defaultDefinition = {
     small: {
       fontSize: 8,
     },
+  },
+  defaultStyle: {
+    font: 'Helvetica',
   },
 }
 
