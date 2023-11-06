@@ -46,11 +46,11 @@ export class PdfViewer extends RawElement {
 
   constructor() {
     super()
-    this.style.display = 'block'
     this.iframeEl = null
   }
 
   connectedCallback() {
+    this.style.display = 'block'
     super.connectedCallback()
     this.ensureDependencies()
   }
