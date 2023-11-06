@@ -26,10 +26,6 @@ PdfViewer.registerFont({
 
 customElements.define('pdf-viewer', PdfViewer)
 
-export default {
-  title: 'PDFTemplates/Examples',
-}
-
 const defaultDefinition = {
   content: [
     {
@@ -76,9 +72,19 @@ const defaultDefinition = {
   },
 }
 
-const Template = () => {
-  return html`<pdf-viewer style="height: 80vh;" .data=${defaultDefinition}></pdf-viewer>`
+export default {
+  title: 'PDFTemplates/Examples',
+  component: 'pdf-viewer',
+  args: {
+    data: defaultDefinition,
+  },
+  decorators: [
+    (story) => {
+      const el = story()
+      el.style.height = '80vh'
+      return el
+    },
+  ],
 }
 
-export const Default = Template.bind({})
-Default.args = {}
+export const Default = {}
