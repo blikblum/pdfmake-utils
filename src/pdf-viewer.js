@@ -11,6 +11,7 @@ export class PdfViewer extends RawElement {
       data: { type: Object },
       mode: { type: String },
       delay: { type: Number },
+      error: { type: String },
     }
   }
 
@@ -67,7 +68,7 @@ export class PdfViewer extends RawElement {
         this.requestUpdate()
       } catch (error) {
         console.error(`PdfViewer: Error loading dependencies: ${error}`)
-        throw new Error(`PdfViewer: Error loading dependencies: ${error}`)
+        this.error = `Error loading dependencies: ${error}`
       }
     }
   }
@@ -85,6 +86,7 @@ export class PdfViewer extends RawElement {
   loadPdfData(assetsLoader) {
     if (this.pendingData && loadedPdfMake && assetsLoader.ready) {
       this.pendingData = false
+      this.error = undefined
       try {
         const pdfDocGenerator = loadedPdfMake.createPdf(this.data)
         pdfDocGenerator.getDataUrl((dataUrl) => {
@@ -92,13 +94,16 @@ export class PdfViewer extends RawElement {
         })
       } catch (error) {
         console.warn(`PdfViewer: error creating pdf: ${error}`)
+        this.error = `Error creating pdf: ${error}`
       }
     }
   }
 
   render() {
     const { assetsLoader } = this.constructor
-    if (!this.data) {
+    if (this.error) {
+      this.innerHTML = `<div>${this.error}</div>`
+    } else if (!this.data) {
       this.innerHTML = '<div>Waiting for data...</div>'
     } else if (!loadedPdfMake || !assetsLoader.ready) {
       this.innerHTML = '<div>Loading component...</div>'
