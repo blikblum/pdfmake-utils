@@ -59,12 +59,12 @@ export class PdfViewer extends RawElement {
   async ensureDependencies() {
     const { assetsLoader } = this.constructor
     if (!dependenciesLoaded) {
-      dependenciesLoaded = true
       try {
         const getPdfMake = Promise.resolve(this.constructor.getPdfMake())
         const [pdfMake] = await Promise.all([getPdfMake, assetsLoader.load()])
         loadedPdfMake = pdfMake.__esModule ? pdfMake.default : pdfMake
         assetsLoader.configurePdfMake(loadedPdfMake)
+        dependenciesLoaded = true
         this.requestUpdate()
       } catch (error) {
         console.error(`PdfViewer: Error loading dependencies: ${error}`)
