@@ -24,6 +24,13 @@ function fetchFile(fileURL, isRaw) {
   })
 }
 
+function removeLeadingSlash(path) {
+  if (path.charAt(0) === '/') {
+    return path.slice(1)
+  }
+  return path
+}
+
 const allStyles = ['normal', 'bold', 'italics', 'bolditalics']
 
 const standardFonts = [
@@ -82,9 +89,9 @@ export class PdfAssetsLoader {
         const fontInfo = this.fonts[fontDef.name] || (this.fonts[fontDef.name] = {})
         const styles = fontDef.styles || allStyles
         styles.forEach((style) => {
-          fontInfo[style] = fontDef.fileName
+          fontInfo[style] = removeLeadingSlash(fontDef.fileName)
         })
-        this.storeFileData(vfsPath, data)
+        this.storeFileData(removeLeadingSlash(vfsPath), data)
       })
       fetches.push(fontFetch)
     })
@@ -92,7 +99,7 @@ export class PdfAssetsLoader {
     this.fileDefs.forEach((fileDef) => {
       const fileURL = fileDef.URL || fileDef.name
       const fileFetch = fetchFile(fileURL, fileDef.raw).then((data) => {
-        this.storeFileData(fileDef.name, data)
+        this.storeFileData(removeLeadingSlash(fileDef.name), data)
       })
       fetches.push(fileFetch)
     })
